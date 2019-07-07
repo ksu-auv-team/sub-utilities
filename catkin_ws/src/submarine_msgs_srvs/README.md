@@ -1,4 +1,5 @@
 
+<pre>
 <h1> Custom Messages and Services</h1> 
 <h3> go to http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv for more information.</h3>
 
@@ -54,3 +55,4 @@ The following assumes everything is done from the catkin_ws directory.
 2. In another terminal execute command: python src/submarine_msgs_srvs/scripts/ReadBoxServer.py
 3. In another terminal execute command: rosservice call /readBox [0,1,2,3,4,5,6] "class_id"
 
+</pre>
