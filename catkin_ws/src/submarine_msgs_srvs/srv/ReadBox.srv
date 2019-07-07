@@ -1,4 +1,4 @@
-int32[] box
+float[] box
 string desiredValue
 ---
-int32 value
+float value
