@@ -1,7 +1,7 @@
-# H1 Custom Messages and Services 
-# H3 go to http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv for more information.
+#H1 Custom Messages and Services 
+#H3 go to http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv for more information.
 
-# H2 For any packages that use custom msgs or srvs:
+#H2 For any packages that use custom msgs or srvs:
 1. Go to the package.xml and uncomment the following:
   &lt;build_depend&gt;message_generation&lt;/build_depend&gt;
   &lt;exec_depend&gt;message_runtime&lt;/exec_depend&gt;
@@ -9,45 +9,45 @@
 3. In the CMakeLists.txt under 'generate_messages' add any dependencies under DEPENDENCIES
 
 
-# H2 Using msgs or srvs from other packages
+#H2 Using msgs or srvs from other packages
  In the package.xml, have the following:
 &lt;build_depend&gt; package_name &lt;/build_depend&gt;
 &lt;run_depend&gt; package_name &lt;/run_depend&gt;
 
-# H2 Adding Custom Messages
+#H2 Adding Custom Messages
 1. Add the message.msg file to the msg directory
 2. In the CMakeLists.txt file, go to 'add_message_files' and add MessageFileName.msg under FILES
 3. Go to catkin_ws directory and execute the command: 'catkin_make'
 4. Execute the command: source devel/setup.bash
 
-# H2 Using Custom messages
+#H2 Using Custom messages
 Python: http://wiki.ros.org/ROS/Tutorials/CustomMessagePublisherSubscriber%28python%29
 C++: http://wiki.ros.org/th/ROS/Tutorials/DefiningCustomMessages
 
-# H3 Importing and declaring custom messages in Python 
+#H3 Importing and declaring custom messages in Python 
 from submarine_msgs_srvs.msg import MessageName
 msg = MessageName()
 
 A full example can be found in the scripts directory of this package
 
-# H2 Adding Custom srvs
+#H2 Adding Custom srvs
 1. Add service.srv file to the srv directory
 2. In the CMakeLists.txt, under 'add_service_files' add ServiceFileName.srv under FILES
 3. Create a service node and a client node to run the service.
 Learn about service nodes at http://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28python%29
 
 
-# H1 Testing the Examples
+#H1 Testing the Examples
 1. In the catkin_ws directory, catkin_make
 2. source devel/setup.bash
 In every terminal that you open in bash, source the setup.bash file.
 The following assumes everything is done from the catkin_ws directory.
 
-# H2 Testing the custom message example
+#H2 Testing the custom message example
 1. Execute command: roscore
 2. In another terminal execute command python src/submarine_msgs_srvs/scripts/testPublisher.py
 3. In another terminal execute command python src/submarine_msgs_srvs/scripts/testSubscriber.py
-# H2 Testing the custom service example
+#H2 Testing the custom service example
 
 1. Execute command: roscore
 2. In another terminal execute command: python src/submarine_msgs_srvs/scripts/ReadBoxServer.py
