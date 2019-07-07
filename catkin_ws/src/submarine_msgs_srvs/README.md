@@ -1,8 +1,9 @@
 # Custom Messages and Services 
-# go to http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv for more information.
+Go to http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv for more information.
 
 # For any packages that use custom msgs or srvs:
 1. Go to the package.xml and uncomment the following:
+
   &lt;build_depend&gt;message_generation&lt;/build_depend&gt;
   &lt;exec_depend&gt;message_runtime&lt;/exec_depend&gt;
 2. Go to the CMakeLists.txt in the section 'find_package(catkin REQUIRED COMPONENTS)', add 'message_generation'
