@@ -129,7 +129,7 @@ dmypy.json
 *.swp
 
 # Catkin_Workspace Things:
-catkin_ws/.catkin_workspace
+#catkin_ws/.catkin_workspace
 catkin_ws/build
 catkin_ws/devel
-catkin_ws/src/CMakeLists.txt
+#catkin_ws/src/CMakeLists.txt

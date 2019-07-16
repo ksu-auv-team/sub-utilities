@@ -1,7 +1,7 @@
 
 <pre>
 <h1> Custom Messages and Services</h1> 
-<h3> go to http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv for more information.</h3>
+<h3> Look <a href="http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv">here</a> for more information.</h3>
 
 <h2> For any packages that use custom msgs or srvs:</h2>
 1. Go to the package.xml and uncomment the following:
@@ -23,8 +23,8 @@
 4. Execute the command: source devel/setup.bash
 
 <h2> Using Custom messages</h2>
-Python: http://wiki.ros.org/ROS/Tutorials/CustomMessagePublisherSubscriber%28python%29
-C++: http://wiki.ros.org/th/ROS/Tutorials/DefiningCustomMessages
+<a href="http://wiki.ros.org/ROS/Tutorials/CustomMessagePublisherSubscriber%28python%29">Python</a>
+<a href="http://wiki.ros.org/th/ROS/Tutorials/DefiningCustomMessages">C++</a>
 
 <h3> Importing and declaring custom messages in Python</h2> 
 from submarine_msgs_srvs.msg import MessageName
@@ -36,7 +36,7 @@ A full example can be found in the scripts directory of this package
 1. Add service.srv file to the srv directory
 2. In the CMakeLists.txt, under 'add_service_files' add ServiceFileName.srv under FILES
 3. Create a service node and a client node to run the service.
-Learn about service nodes at http://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28python%29
+Learn about service nodes <a href="http://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28python%29"> here</a>
 
 
 # Testing the Examples
