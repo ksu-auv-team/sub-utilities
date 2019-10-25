@@ -12,7 +12,7 @@ from std_msgs.msg import Bool
 from colorama import Fore
 
 class SubSession():
-    def __init__(self, no_arduino=False):
+    def __init__(self,no_save_images = ' ', network_model = ' ', state_machine = ' ' ):
         # Subprocesses:
         self.curr_children = []
         self.startup_processes = []
@@ -20,7 +20,10 @@ class SubSession():
         # Arduino variables
         self.delay_start = 0
         self.sub_is_killed = True
-        self.no_arduino = no_arduino
+        self.no_save_images = no_save_images
+        self.network_model = network_model
+        self.state_machine = state_machine
+
 
         #keep logs from each start in a separate directory
         self.script_directory = os.path.dirname(os.path.realpath(__file__)) + '/'
@@ -72,7 +75,7 @@ class SubSession():
             return rc
 
     def start_video(self):
-        video_string = "python " + self.script_directory + "camera_node.py " + args.no_save_images
+        video_string = "python " + self.script_directory + "camera_node.py " + self.no_save_images
         video_command = video_string.split()
 
         print(Fore.GREEN + "starting video node with command: " + Fore.WHITE + video_string)
@@ -80,8 +83,9 @@ class SubSession():
             video = subprocess.Popen(video_command, stdout=videoout, stderr=videoout)
             return video
 
+#kept changed args.network_model to self.network_model and args.no_save_images to self.no_save_images and type casted the booleans to a string
     def start_network(self):
-        network_string = "python3 " + self.script_directory + '../submodules/jetson_nano_inference/jetson_live_object_detection.py --model ' + args.network_model + ' ' + args.no_save_images
+        network_string = "python3 " + self.script_directory + '../submodules/jetson_nano_inference/jetson_live_object_detection.py --model ' + self.network_model + ' ' + self.no_save_images
         network_command = network_string.split()
     
         print(Fore.GREEN + 'starting Neural Network with command: ' + Fore.WHITE + network_string)
