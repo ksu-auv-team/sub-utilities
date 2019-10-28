@@ -12,6 +12,22 @@ from std_msgs.msg import Bool
 from colorama import Fore
 
 class SubSession():
+
+    # Parse command line arguments:
+    parser = argparse.ArgumentParser(description="run the submarine")
+    parser.add_argument('-i', '--internet-address', help="override default hostname or ip address for remote computer (not currently functional)")
+    parser.add_argument('-m', '--manual', action='store_true', help="Will not run state machine")
+    parser.add_argument('-s', '--state-machine', default="QualifyStraightMachine", help="set name of state machine to use (default: %(default)s)")
+    parser.add_argument('-n', '--network-model', default="qual_2_rcnn_frozen", help="set name of neural network to use (default: %(default)s)")
+    parser.add_argument('-v', '--verbosity', help="set logging verbosity (doesn't work)")
+    parser.add_argument('--no-arduino', action='store_true', help='Runs the sub without running any physical arduino hardware.')
+    parser.add_argument('--no-network', action='store_true', help='Runs the sub without running the neural network')
+    parser.add_argument('--no-save-images', action='store_const', default ='', const='--no-save-images', help='Will not record any video/pictures from the sub')
+    parser.add_argument('--debug-execute', action='store_const', default='', const='--debug', help='Will run execute with the debug flag')
+    parser.add_argument('--start-front-network', action='store_true', help='Will begin with the front neural network running')
+    parser.add_argument('--start-bottom-network', action='store_true', help='Will begin with the bottom neural network running')
+    args = parser.parse_args()
+    
     def __init__(self, no_arduino=False):
         # Subprocesses:
         self.curr_children = []
