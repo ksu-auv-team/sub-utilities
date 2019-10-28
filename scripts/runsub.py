@@ -9,7 +9,6 @@ import signal
 import sys
 import rospy
 from std_msgs.msg import Bool
-from colorama import Fore
 
 class SubSession():
 
@@ -82,7 +81,7 @@ class SubSession():
         roscore_string = 'roscore'
         roscore_command = roscore_string.split()
 
-        print(Fore.GREEN + 'starting roscore with command: ' + Fore.WHITE + roscore_string)
+        print('starting roscore with command: ' + roscore_string)
         with open('{}roscoreout.txt'.format(self.curr_log_dir), 'w') as rcout:
             rc = subprocess.Popen(roscore_command, stdout=rcout, stderr=rcout)
             return rc
@@ -91,7 +90,7 @@ class SubSession():
         video_string = "python " + self.script_directory + "camera_node.py " + args.no_save_images
         video_command = video_string.split()
 
-        print(Fore.GREEN + "starting video node with command: " + Fore.WHITE + video_string)
+        print("starting video node with command: " + video_string)
         with open('{}videoout.txt'.format(self.curr_log_dir), 'w') as videoout:
             video = subprocess.Popen(video_command, stdout=videoout, stderr=videoout)
             return video
@@ -100,7 +99,7 @@ class SubSession():
         network_string = "python3 " + self.script_directory + '../submodules/jetson_nano_inference/jetson_live_object_detection.py --model ' + args.network_model + ' ' + args.no_save_images
         network_command = network_string.split()
     
-        print(Fore.GREEN + 'starting Neural Network with command: ' + Fore.WHITE + network_string)
+        print('starting Neural Network with command: ' + network_string)
         with open('{}networkout.txt'.format(self.curr_log_dir), 'w') as networkout:
             network = subprocess.Popen(network_command, stdout=networkout, stderr=networkout)
             return network
@@ -109,7 +108,7 @@ class SubSession():
         movement_string = "roslaunch movement_package manualmode.launch"
         movement_command = movement_string.split()
 
-        print(Fore.GREEN + 'starting movement_package with command: ' + Fore.WHITE + movement_string)
+        print('starting movement_package with command: ' + movement_string)
         with open('{}movementout.txt'.format(self.curr_log_dir), 'w') as mvout:
             mv = subprocess.Popen(movement_command, stdout=mvout, stderr=mvout)
             return mv 
@@ -118,7 +117,7 @@ class SubSession():
         execute_string = 'python ' + self.script_directory + '../submodules/subdriver/execute_withState.py --machine ' + args.state_machine + ' ' + args.debug_execute
         execute_command = execute_string.split()
 
-        print(Fore.GREEN + 'starting execute with command: ' + Fore.WHITE + execute_string)
+        print('starting execute with command: ' + execute_string)
         with open('{}executeout.txt'.format(self.curr_log_dir), 'w') as executeout:
             ex = subprocess.Popen(execute_command, stdout=executeout, stderr=executeout)
             return ex
@@ -127,7 +126,7 @@ class SubSession():
         arduino_string = "rosrun rosserial_python serial_node.py /dev/arduino_0"
         arduino_command = arduino_string.split()
 
-        print(Fore.GREEN + 'starting Arduino Process with command: ' + Fore.WHITE + arduino_string)
+        print('starting Arduino Process with command: ' + arduino_string)
         with open('{}arduinoout.txt'.format(self.curr_log_dir), 'w') as ardout:
             arduino = subprocess.Popen(arduino_command, stdout=ardout, stderr=ardout)
             return arduino
