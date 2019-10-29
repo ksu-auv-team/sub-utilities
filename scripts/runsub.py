@@ -12,6 +12,8 @@ from std_msgs.msg import Bool
 
 class SubSession():
     def __init__(self, no_arduino=False):
+
+        
         # Subprocesses:
         self.curr_children = []
         self.startup_processes = []
@@ -30,7 +32,22 @@ class SubSession():
         self.startup_processes.append(self.start_roscore())
         killswitch_start_sub = rospy.Subscriber("killswitch_run_start", Bool, self.killswitch_start_callback)
         killswitch_realtime_sub = rospy.Subscriber("killswitch_is_killed", Bool, self.killswitch_realtime_callback, queue_size=1)
-        
+    # defining the arguments
+    def args(self, no_arduino=False, no_network=False, no_save_images=False, debug_execute=True, start_front_network=True, start_bottom_network=True, i=True, m=True, s=True, n=True, v=True): 
+        print("All arugments are True")
+        self.no_arduino= no_arduino
+        self.no_network= no_network
+        self.no_save_images = no_save_images
+        self.debug_execute = debug_execute
+        self.start_front_network = start_front_network
+        self.start_bottom_network = start_bottom_network
+        self.i= i
+        self.m = m
+        self.s = s
+        self.n = n
+        self.v = v
+    def print_args(self):
+
     # shut down child processes for restarting them cleanly or exiting
     def kill_children(self):
         self.curr_children
