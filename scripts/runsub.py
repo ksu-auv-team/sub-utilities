@@ -24,7 +24,7 @@ class SubSession():
         self.state_machine = state_machine
         self.debug_execute = debug_execute
         self.manual = manual
-        self.no-save-images = no-save-images
+        self.no_save_images = no_save_images
 
 
         #keep logs from each start in a separate directory
