@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+#Changes:
+#Removed all instances of no_arduino in SubSession Class
+#Almost removed all instances of args before the main. Not sure how to remove 'args.manual'
 
 import os
 import subprocess
@@ -12,7 +15,7 @@ from std_msgs.msg import Bool
 from colorama import Fore
 
 class SubSession():
-    def __init__(self, no_arduino=False):
+    def __init__(self):
         # Subprocesses:
         self.curr_children = []
         self.startup_processes = []
@@ -20,7 +23,6 @@ class SubSession():
         # Arduino variables
         self.delay_start = 0
         self.sub_is_killed = True
-        self.no_arduino = no_arduino
 
         #keep logs from each start in a separate directory
         self.script_directory = os.path.dirname(os.path.realpath(__file__)) + '/'
@@ -71,8 +73,8 @@ class SubSession():
             rc = subprocess.Popen(roscore_command, stdout=rcout, stderr=rcout)
             return rc
 
-    def start_video(self):
-        video_string = "python " + self.script_directory + "camera_node.py " + args.no_save_images
+    def start_video(self,no_save_images):
+        video_string = "python " + self.script_directory + "camera_node.py " + no_save_images
         video_command = video_string.split()
 
         print(Fore.GREEN + "starting video node with command: " + Fore.WHITE + video_string)
@@ -80,8 +82,8 @@ class SubSession():
             video = subprocess.Popen(video_command, stdout=videoout, stderr=videoout)
             return video
 
-    def start_network(self):
-        network_string = "python3 " + self.script_directory + '../submodules/jetson_nano_inference/jetson_live_object_detection.py --model ' + args.network_model + ' ' + args.no_save_images
+    def start_network(self, network_model, no_save_images):
+        network_string = "python3 " + self.script_directory + '../submodules/jetson_nano_inference/jetson_live_object_detection.py --model ' + network_model + ' ' + no_save_images
         network_command = network_string.split()
     
         print(Fore.GREEN + 'starting Neural Network with command: ' + Fore.WHITE + network_string)
@@ -98,8 +100,8 @@ class SubSession():
             mv = subprocess.Popen(movement_command, stdout=mvout, stderr=mvout)
             return mv 
 
-    def start_execute(self):
-        execute_string = 'python ' + self.script_directory + '../submodules/subdriver/execute_withState.py --machine ' + args.state_machine + ' ' + args.debug_execute
+    def start_execute(self, state_machine, debug_execute):
+        execute_string = 'python ' + self.script_directory + '../submodules/subdriver/execute_withState.py --machine ' + state_machine + ' ' + debug_execute
         execute_command = execute_string.split()
 
         print(Fore.GREEN + 'starting execute with command: ' + Fore.WHITE + execute_string)
