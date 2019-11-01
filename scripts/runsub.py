@@ -17,7 +17,7 @@ class SubSession():
         self.curr_children = []
         self.startup_processes = []
         
-        # Arduino variables
+        # Arguments
         self.delay_start = 0
         self.sub_is_killed = True
         self.network_model = network_model
