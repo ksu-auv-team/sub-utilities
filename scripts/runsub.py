@@ -12,7 +12,7 @@ from std_msgs.msg import Bool
 from colorama import Fore
 
 class SubSession():
-    def __init__(self,no_save_images = ' ', network_model = ' ', state_machine = ' ' ):
+    def __init__(self, manual = False, network_model = 'qual_2_rcnn_frozen', state_machine = 'QualifyStraightMachine', debug_execute= ''):
         # Subprocesses:
         self.curr_children = []
         self.startup_processes = []
@@ -20,9 +20,11 @@ class SubSession():
         # Arduino variables
         self.delay_start = 0
         self.sub_is_killed = True
-        self.no_save_images = no_save_images
         self.network_model = network_model
         self.state_machine = state_machine
+        self.debug_execute = debug_execute
+        self.manual = manual
+      #  self.no_save_images = no_save_images
 
 
         #keep logs from each start in a separate directory
@@ -85,7 +87,7 @@ class SubSession():
 
 #kept changed args.network_model to self.network_model and args.no_save_images to self.no_save_images and type casted the booleans to a string
     def start_network(self):
-        network_string = "python3 " + self.script_directory + '../submodules/jetson_nano_inference/jetson_live_object_detection.py --model ' + self.network_model + ' ' + self.no_save_images
+        network_string = "python3 " + self.script_directory + '../submodules/jetson_nano_inference/jetson_live_object_detection.py --model ' + self.network_model + ' ' + args.no_save_images
         network_command = network_string.split()
     
         print(Fore.GREEN + 'starting Neural Network with command: ' + Fore.WHITE + network_string)
@@ -103,7 +105,7 @@ class SubSession():
             return mv 
 
     def start_execute(self):
-        execute_string = 'python ' + self.script_directory + '../submodules/subdriver/execute_withState.py --machine ' + args.state_machine + ' ' + args.debug_execute
+        execute_string = 'python ' + self.script_directory + '../submodules/subdriver/execute_withState.py --machine ' + self.state_machine + ' ' + self.debug_execute
         execute_command = execute_string.split()
 
         print(Fore.GREEN + 'starting execute with command: ' + Fore.WHITE + execute_string)
