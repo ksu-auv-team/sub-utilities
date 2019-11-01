@@ -9,17 +9,22 @@ import signal
 import sys
 import rospy
 from std_msgs.msg import Bool
-
 class SubSession():
-    def __init__(self, no_arduino=False):
+    def __init__(self, no_arduino=False, no_network=False, manual=False, state_machine=False, debug_execute=False, network_model=False, no_save_images=False):
+        self.no_arduino = no_arduino
+        self.no_network = no_network
+        self.manual = manual
+        self.state_machine = state_machine
+        self.debug_execute = debug_execute
+        self.network_model = network_model
+        self.no_save_images = no_save_images
 
-        
         # Subprocesses:
         self.curr_children = []
         self.startup_processes = []
         
         # Arduino variables
-        self.delay_start = 0
+        self.delay_start = 0 
         self.sub_is_killed = True
         self.no_arduino = no_arduino
 
@@ -32,22 +37,8 @@ class SubSession():
         self.startup_processes.append(self.start_roscore())
         killswitch_start_sub = rospy.Subscriber("killswitch_run_start", Bool, self.killswitch_start_callback)
         killswitch_realtime_sub = rospy.Subscriber("killswitch_is_killed", Bool, self.killswitch_realtime_callback, queue_size=1)
-    # defining the arguments
-    def args(self, no_arduino=False, no_network=False, no_save_images=False, debug_execute=True, start_front_network=True, start_bottom_network=True, i=True, m=True, s=True, n=True, v=True): 
-        print("All arugments are True")
-        self.no_arduino= no_arduino
-        self.no_network= no_network
-        self.no_save_images = no_save_images
-        self.debug_execute = debug_execute
-        self.start_front_network = start_front_network
-        self.start_bottom_network = start_bottom_network
-        self.i= i
-        self.m = m
-        self.s = s
-        self.n = n
-        self.v = v
-    def print_args(self):
-
+    
+    
     # shut down child processes for restarting them cleanly or exiting
     def kill_children(self):
         self.curr_children
@@ -87,7 +78,7 @@ class SubSession():
             return rc
 
     def start_video(self):
-        video_string = "python " + self.script_directory + "camera_node.py " + args.no_save_images
+        video_string = "python " + self.script_directory + "camera_node.py " + self.no_save_images
         video_command = video_string.split()
 
         print("starting video node")
@@ -96,7 +87,7 @@ class SubSession():
             return video
 
     def start_network(self):
-        network_string = "python3 " + self.script_directory + '../submodules/jetson_nano_inference/jetson_live_object_detection.py --model ' + args.network_model + ' ' + args.no_save_images
+        network_string = "python3 " + self.script_directory + '../submodules/jetson_nano_inference/jetson_live_object_detection.py --model ' + self.network_model + ' ' + self.no_save_images
         network_command = network_string.split()
     
         print('starting Neural Network')
@@ -114,7 +105,7 @@ class SubSession():
             return mv 
 
     def start_execute(self):
-        execute_string = 'python ' + self.script_directory + '../submodules/subdriver2018/execute_withState.py --machine ' + args.state_machine + ' ' + args.debug_execute
+        execute_string = 'python ' + self.script_directory + '../submodules/subdriver2018/execute_withState.py --machine ' + self.state_machine + ' ' + self.debug_execute
         execute_command = execute_string.split()
 
         print('starting execute')
@@ -148,7 +139,7 @@ class SubSession():
             pass
 
         # Run Execute
-        if(args.manual):
+        if(self.manual):
             print('Manual Mode enabled, start your joystick node')
         else:
             self.curr_children.append(self.start_execute())
@@ -194,7 +185,7 @@ if __name__ == '__main__':
     time.sleep(3)
 
     # Create Subsession
-    go_sub_go = SubSession(args.no_arduino)
+    go_sub_go = SubSession(self.no_arduino)
 
     # Ros init
     rospy.init_node("run_sub")
