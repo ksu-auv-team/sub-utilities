@@ -10,8 +10,7 @@ import sys
 import rospy
 from std_msgs.msg import Bool
 class SubSession():
-    def __init__(self, no_arduino=False, no_network=False, manual=False, state_machine=False, debug_execute=False, network_model=False, no_save_images=False):
-        self.no_arduino = no_arduino
+    def __init__(self, no_network=False, manual=False, state_machine=False, debug_execute=False, network_model="", no_save_images=""):
         self.no_network = no_network
         self.manual = manual
         self.state_machine = state_machine
@@ -26,8 +25,7 @@ class SubSession():
         # Arduino variables
         self.delay_start = 0 
         self.sub_is_killed = True
-        self.no_arduino = no_arduino
-
+        
         #keep logs from each start in a separate directory
         self.script_directory = os.path.dirname(os.path.realpath(__file__)) + '/'
         self.curr_log_dir = self.script_directory + '../logs/{}/'.format(datetime.datetime.now())
@@ -185,7 +183,7 @@ if __name__ == '__main__':
     time.sleep(3)
 
     # Create Subsession
-    go_sub_go = SubSession(self.no_arduino)
+    go_sub_go = SubSession(args.no_network, args.manual,args.state_machine, args.debug_execute, args.network_model, args.no_save_images)
 
     # Ros init
     rospy.init_node("run_sub")
