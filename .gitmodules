@@ -10,6 +10,6 @@
 [submodule "submodules/network_wrapper"]
 	path = submodules/network_wrapper
 	url = https://github.com/ksu-auv-team/network_wrapper.git
-[submodule "submarine_msgs_srvs"]
-	path = submarine_msgs_srvs
+[submodule "catkin_ws/src/submarine_msgs_srvs"]
+	path = catkin_ws/src/submarine_msgs_srvs
 	url = https://github.com/ksu-auv-team/submarine_msgs_srvs
