@@ -10,6 +10,7 @@ import StateMachine.machines.TestSpinMachine as testspin
 import StateMachine.machines.QualifyStraightMachine as dumbqualify
 import StateMachine.machines.TestTrackMachine as testtrack
 import StateMachine.machines.TestArbitraryMachine as arb
+import StateMachine.machines.ZSpinMachine as zspin
 
 # Global values updated in real time
 import StateMachine.gbl as gbl
@@ -30,7 +31,8 @@ states = {
     'PrequalifyMachine': prequal.createStateMachine,
     'TestSpinMachine': testspin.createStateMachine,
     'QualifyStraightMachine': dumbqualify.createStateMachine,
-    'TestTrackMachine': testtrack.createStateMachine
+    'TestTrackMachine': testtrack.createStateMachine,
+    'ZSpinMachine': zspin.createStateMachine
 }
 
 def main():
