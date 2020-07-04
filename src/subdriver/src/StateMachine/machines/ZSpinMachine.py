@@ -17,9 +17,9 @@ def createStateMachine():
     # Open the container
     with sm_AUV:
 
-        smach.StateMachine.add('DUMB_START', Dumb_Start(), transitions={'setup_complete':'SPIN_TO_WIN'})
+        smach.StateMachine.add('DUMB_START', Dumb_Start(), transitions={'setup_complete':'Z_Spin'})
 
-        smach.StateMachine.add('SPIN_TO_WIN', ZSpin(), transitions={'through_gate':'SURFACE'})
+        smach.StateMachine.add('Z_Spin', ZSpin(), transitions={'through_gate':'SURFACE'})
 
         smach.StateMachine.add('SURFACE', Surface(), transitions={'surfaced':'finished_run'})
 

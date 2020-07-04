@@ -9,31 +9,43 @@ from StateMachine import sub
 class ZSpin(Sub):
     def __init__(self):
         smach.State.__init__(self, outcomes=['through_gate'])
-
+    
     def execute(self, userdata):
         self.init_state()
         gbl.state_heading = gbl.heading
 
         msg = self.init_joy_msg()
-        
+
         while rospy.get_time() < (self.current_state_start_time + 100):
 
             #rotate the sub
-            msg.axes[const.AXES['rotate']] = 0.8
-            self.subAngle = (gbl.heading + 60) % 360
-                
-            #find the angle distance from 0 or 180
-            target = 90 if 0 <= self.subAngle <=180 else 270
-            diff = abs(target - self.subAngle)
-            diff_angle = abs(90 - diff)
+            msg.axes[const.AXES['rotate']] = 0.6
 
-            #caculate 'frontback' and 'strafe' directions 
-            fb = 1 * (2 * (int(0 <= self.subAngle <= 180)) - 1)
-            s = (1 - (float(diff_angle / 90.0))) * (2 * (int( 0 <= self.subAngle <= 90 or 270 <= self.subAngle <= 360)) - 1)
+            #(+270) changes the gbl.heading to match the unit circle where 
+            #(90 is north, 180 is west, etc)
+            subAngle = (gbl.heading + 270) %  360
+
+            #direction the sub should go
+            #(90 is north, 180 is west, etc)
+            target = 90
+
+            #change the angle based on the target
+            subAngle = (subAngle + (target - 110)) % 360
             
-            #move the sub
-            msg.axes[const.AXES['frontback']] = fb
-            msg.axes[const.AXES['strafe']] = s
+            #convert to radians
+            subAngle_radians = (subAngle) * (math.pi/180.0)
+
+            #calculate the force needed to keep the sub straight while rotating
+            fb = math.sin(subAngle_radians)
+            s = math.cos(subAngle_radians)
+
+            if subAngle_radians >= math.pi:
+                fb = abs(fb)
+                s = 0
+            
+            #move the sub, divide by 2 to reduce power
+            msg.axes[const.AXES['frontback']] = fb / 2
+            msg.axes[const.AXES['strafe']] = s / 2
         
             self.publish(msg)
             rospy.sleep(const.SLEEP_TIME)
