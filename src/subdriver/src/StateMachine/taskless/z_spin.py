@@ -16,36 +16,33 @@ class ZSpin(Sub):
 
         msg = self.init_joy_msg()
 
+        #python runsub.py --no-arduino --no-network --simulate -s ZSpinMachine
+
         while rospy.get_time() < (self.current_state_start_time + 100):
 
             #rotate the sub
             msg.axes[const.AXES['rotate']] = 0.6
 
-            #(+270) changes the gbl.heading to match the unit circle where 
-            #(90 is north, 180 is west, etc)
-            subAngle = (gbl.heading + 270) %  360
+            subAngle = gbl.heading
 
             #direction the sub should go
             #(90 is north, 180 is west, etc)
             target = 90
 
-            #change the angle based on the target
-            subAngle = (subAngle + (target - 110)) % 360
+            targetAngle = (subAngle + (target - 108)) % 360
             
             #convert to radians
-            subAngle_radians = (subAngle) * (math.pi/180.0)
+            tAngle_radians = (targetAngle) * (math.pi/180.0)
 
-            #calculate the force needed to keep the sub straight while rotating
-            fb = math.sin(subAngle_radians)
-            s = math.cos(subAngle_radians)
-
-            if subAngle_radians >= math.pi:
-                fb = abs(fb)
-                s = 0
+            #calculate frontback and strafe
+            fb = math.sin(tAngle_radians)
+            s = math.cos(tAngle_radians)
             
             #move the sub, divide by 2 to reduce power
             msg.axes[const.AXES['frontback']] = fb / 2
             msg.axes[const.AXES['strafe']] = s / 2
+
+            # rospy.loginfo('angle: ' + str(self.subAngle) + ' fb: ' + str(fb) + ' s: ' + str(s))
         
             self.publish(msg)
             rospy.sleep(const.SLEEP_TIME)
